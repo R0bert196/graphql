@@ -1,5 +1,6 @@
 package com.example.demo.bookDetails;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -9,16 +10,19 @@ public class Author {
     private String firstName;
     private String lastName;
 
-    public Author(String id, String firstName, String lastName) {
+    private List<Book> books;
+
+    public Author(String id, String firstName, String lastName, List<Book> books) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.books = books;
     }
 
     private static List<Author> authors = Arrays.asList(
-            new Author("author-1", "Joanne", "Rowling"),
-            new Author("author-2", "Herman", "Melville"),
-            new Author("author-3", "Anne", "Rice")
+            new Author("author-1", "Joanne", "Rowling", new ArrayList<>()),
+            new Author("author-2", "Herman", "Melville", new ArrayList<>()),
+            new Author("author-3", "Anne", "Rice", new ArrayList<>())
     );
 
     public static Author getById(String id) {

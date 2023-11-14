@@ -14,3 +14,7 @@ type Author {
     firstName: String
     lastName: String
 }
+
+type Mutation {
+    createBook(title: String, pageCount: Int, authorId: String): Book
+}
