@@ -2,6 +2,7 @@ package com.graphql.first.services
 
 import com.graphql.first.repositories.PostRepository
 import com.graphql.first.resolver.Post
+import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Service
 import java.util.*
 
@@ -26,5 +27,17 @@ class PostService(private val postRepository: PostRepository) {
                 description = it.description
             )
         }
+    }
+
+    fun getPosts(page: Int, size: Int): List<Post> {
+        val page =PageRequest.of(page, size)
+
+        return postRepository.findAll(page).map {
+            Post(
+                id = it.id,
+                title = it.title,
+                description = it.description
+            )
+        }.toList()
     }
 }

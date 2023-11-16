@@ -2,6 +2,7 @@ package com.graphql.first.resolver
 
 import com.graphql.first.services.PostService
 import com.graphql.first.services.UserService
+import org.springframework.graphql.data.method.annotation.Argument
 import org.springframework.graphql.data.method.annotation.QueryMapping
 import org.springframework.graphql.data.method.annotation.SchemaMapping
 import org.springframework.stereotype.Controller
@@ -19,6 +20,12 @@ class PostResolver(
         return postService.getPosts()
     }
 
+    @QueryMapping
+    fun recentPosts(@Argument page: Int, @Argument size: Int): List<Post> {
+        return postService.getPosts(page, size)
+    }
+
+
     //  field resolver
     //  executed when a user is accessed through the Post node
     @SchemaMapping(typeName = "Post")
@@ -35,6 +42,7 @@ class PostResolver(
         return postService.getPostsByAuthorId(userId);
 
     }
+
 }
 
 data class Post(
