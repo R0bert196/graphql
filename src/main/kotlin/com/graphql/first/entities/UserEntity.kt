@@ -1,22 +1,21 @@
 package com.graphql.first.entities
 
 import jakarta.persistence.*
-import lombok.Data
 import java.util.UUID
 
 
 @Entity
 @Table(name = "users")
-@Data
-class UserEntity {
+class UserEntity(
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "UUID")
-    val id: UUID? = null
+    val id: UUID? = null,
 
     @Column
-    val name: String = ""
-
+    val name: String,
+    
     @OneToMany(mappedBy = "author")
-    val posts: Set<PostEntity> = emptySet()
-}
+    val posts: Set<PostEntity> = setOf(),
+
+)
