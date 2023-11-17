@@ -8,8 +8,8 @@ import com.graphql.first.resolver.AddPostInput
 import com.graphql.first.resolver.Post
 import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Service
-import java.lang.RuntimeException
 import java.util.*
+import kotlin.RuntimeException
 
 @Service
 class PostService(private val postRepository: PostRepository, private val userRepository: UserRepository) {
@@ -76,5 +76,18 @@ class PostService(private val postRepository: PostRepository, private val userRe
             title = postEntity.title,
             description = postEntity.description
         )
+    }
+
+    fun getPostByCommentId(commentId: UUID?): Post {
+        commentId ?: throw  RuntimeException("CommentId cannot be null")
+
+        val postEntity = postRepository.findByCommentsId(commentId)
+
+        return Post(
+            id = postEntity.id,
+            title = postEntity.title,
+            description = postEntity.description
+        )
+
     }
 }

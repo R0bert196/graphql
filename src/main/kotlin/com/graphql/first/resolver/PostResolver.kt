@@ -47,10 +47,9 @@ class PostResolver(
         return postService.getPostsByAuthorId(userId).size;
     }
 
-    @SchemaMapping(typeName = "User")
+    @SchemaMapping(typeName = "Comment")
     fun post(comment: Comment): Post {
-        val post = comment.post ?: throw RuntimeException("Invalid post for comment")
-        return postService.getPostById(post.id!!)
+        return postService.getPostByCommentId(comment.id)
     }
 }
 

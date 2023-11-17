@@ -21,8 +21,8 @@ class CommentResolver(
 
 
 data class Comment(
-    val id: UUID,
-    val text: String,
-    val author: User?,
-    val post: Post?,
+    val id: UUID?,
+    val text: String?,
+//    val author: User?,
+//    val post: Post?,
 )

@@ -4,6 +4,7 @@ import com.graphql.first.entities.UserEntity
 import com.graphql.first.repositories.PostRepository
 import com.graphql.first.repositories.UserRepository
 import com.graphql.first.resolver.AddUserInput
+import com.graphql.first.resolver.Post
 import com.graphql.first.resolver.User
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
@@ -47,6 +48,29 @@ class UserService(
                 name = it.name,
             )
         }.toList()
+    }
+
+    fun getAuthorById(id: UUID): User {
+
+        val userEntity = userRepository.findById(id)
+            .orElseThrow{ java.lang.RuntimeException("User id is not valid ${id}") }
+
+        return User(
+            id = userEntity.id,
+            name = userEntity.name
+        )
+    }
+
+    fun getUserByCommentId(commentId: UUID?): User {
+
+        commentId ?: throw  RuntimeException("CommentId cannot be null")
+
+        val userEntity = userRepository.findByCommentsId(commentId)
+
+        return User(
+            id = userEntity.id,
+            name = userEntity.name
+        )
     }
 
 }

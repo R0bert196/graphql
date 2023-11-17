@@ -29,6 +29,11 @@ class UserResolver(private val userService: UserService) {
 
         return userService.findByPostId(postId)
     }
+
+    @SchemaMapping(typeName = "Comment")
+    fun author(comment: Comment): User {
+        return userService.getUserByCommentId(comment.id)
+    }
 }
 
 data class User(

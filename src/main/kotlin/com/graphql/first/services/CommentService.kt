@@ -12,27 +12,15 @@ import java.awt.print.Pageable
 class CommentService(
     private val commentRepository: CommentRepository
 ) {
+
     fun getComments(page: Int, size: Int): List<Comment> {
 
         val pageRequest = PageRequest.of(page, size)
 
-        return commentRepository.findAll(pageRequest).map { commentEntity ->
+        return commentRepository.findAll(pageRequest).map {
             Comment(
-                id = commentEntity.id!!,
-                author = commentEntity.author?.let { userEntity ->
-                    User(
-                        id = userEntity.id!!,
-                        name = userEntity.name
-                    )
-                },
-                post = commentEntity.post?.let { postEntity ->
-                    Post(
-                        id = postEntity.id!!,
-                        title = postEntity.title,
-                        description = postEntity.description
-                    )
-                },
-                text = commentEntity.text,
+                id = it.id,
+                text = it.text
             )
         }.toList()
     }
