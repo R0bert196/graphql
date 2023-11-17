@@ -2,6 +2,7 @@ package com.graphql.first.resolver
 
 import com.graphql.first.services.CommentService
 import org.springframework.graphql.data.method.annotation.Argument
+import org.springframework.graphql.data.method.annotation.MutationMapping
 import org.springframework.graphql.data.method.annotation.QueryMapping
 import org.springframework.graphql.data.method.annotation.SchemaMapping
 import org.springframework.stereotype.Controller
@@ -15,8 +16,12 @@ class CommentResolver(
 
     @QueryMapping
     fun getComments(@Argument page: Int, @Argument size: Int): List<Comment> {
-
         return commentService.getComments(page, size)
+    }
+
+    @MutationMapping
+    fun addComment(@Argument("addCommentInput") addComment: AddCommentDTO): Comment {
+        return commentService.saveComment(addComment)
     }
 
     @SchemaMapping(typeName = "Post")
@@ -34,4 +39,10 @@ class CommentResolver(
 data class Comment(
     val id: UUID?,
     val text: String?,
+)
+
+data class AddCommentDTO(
+    val text: String,
+    val authorId: UUID?,
+    val postId: UUID?
 )
