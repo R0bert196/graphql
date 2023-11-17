@@ -48,7 +48,7 @@ class PostResolver(
     }
 
     @SchemaMapping(typeName = "Comment")
-    fun post(comment: Comment): Post {
+    fun post(comment: Comment): Post? {
         return postService.getPostByCommentId(comment.id)
     }
 }

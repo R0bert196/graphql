@@ -31,7 +31,7 @@ class UserResolver(private val userService: UserService) {
     }
 
     @SchemaMapping(typeName = "Comment")
-    fun author(comment: Comment): User {
+    fun author(comment: Comment): User? {
         return userService.getUserByCommentId(comment.id)
     }
 }

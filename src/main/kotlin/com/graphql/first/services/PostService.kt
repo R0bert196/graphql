@@ -6,6 +6,7 @@ import com.graphql.first.repositories.PostRepository
 import com.graphql.first.repositories.UserRepository
 import com.graphql.first.resolver.AddPostInput
 import com.graphql.first.resolver.Post
+import com.graphql.first.resolver.User
 import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Service
 import java.util.*
@@ -78,16 +79,19 @@ class PostService(private val postRepository: PostRepository, private val userRe
         )
     }
 
-    fun getPostByCommentId(commentId: UUID?): Post {
-        commentId ?: throw  RuntimeException("CommentId cannot be null")
+    fun getPostByCommentId(commentId: UUID?): Post? {
+
+        commentId ?: throw RuntimeException("CommentId cannot be null")
 
         val postEntity = postRepository.findByCommentsId(commentId)
 
-        return Post(
-            id = postEntity.id,
-            title = postEntity.title,
-            description = postEntity.description
-        )
-
+        if (postEntity != null) {
+            return Post(
+                    id = postEntity.id,
+                    title = postEntity.title,
+                    description = postEntity.description
+                )
+            }
+        return null
     }
 }
