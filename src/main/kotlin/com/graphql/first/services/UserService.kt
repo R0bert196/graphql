@@ -21,7 +21,7 @@ class UserService(
         val userEntity = userRepository.findByPostsId(postId)
         return User(
             id = userEntity.id,
-            name = userEntity.name
+            name = userEntity.name,
         )
     }
 
@@ -44,7 +44,7 @@ class UserService(
         return userRepository.findAll(page).map {
             User(
                 id = it.id,
-                name = it.name
+                name = it.name,
             )
         }.toList()
     }

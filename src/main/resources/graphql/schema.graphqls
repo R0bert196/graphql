@@ -34,6 +34,7 @@ type User {
     id: ID!
     name: String!
     posts: [Post!]!
+    totalPosts: Int!
 }
 
 type Event {

@@ -33,7 +33,7 @@ class UserResolver(private val userService: UserService) {
 
 data class User(
     val id: UUID?,
-    val name: String
+    val name: String,
 )
 
 data class AddUserInput(

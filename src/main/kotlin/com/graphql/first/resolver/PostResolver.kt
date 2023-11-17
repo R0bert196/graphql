@@ -37,9 +37,14 @@ class PostResolver(
         val userId = user.id ?: throw RuntimeException("User id cannot be null")
 
         return postService.getPostsByAuthorId(userId);
-
     }
 
+    @SchemaMapping(typeName = "User")
+    fun totalPosts(user: User): Int {
+        val userId = user.id ?: throw RuntimeException("User id cannot be null")
+
+        return postService.getPostsByAuthorId(userId).size;
+    }
 }
 
 data class Post(
