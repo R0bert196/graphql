@@ -31,15 +31,6 @@ class PostResolver(
         return userService.addUser(addUserInput)
     }
 
-    //  field resolver
-    //  executed when a user is accessed through the Post node
-    @SchemaMapping(typeName = "Post")
-    fun author(post: Post): User {
-        val postId = post.id ?: throw RuntimeException("Post id cannot be null")
-
-        return userService.findByPostId(postId)
-    }
-
     @SchemaMapping(typeName = "User")
     fun posts(user: User): List<Post> {
         val userId = user.id ?: throw RuntimeException("User id cannot be null")
@@ -56,11 +47,3 @@ data class Post(
     val description: String?
 )
 
-data class User(
-    val id: UUID?,
-    val name: String
-)
-
-data class AddUserInput(
-    val name: String
-)
