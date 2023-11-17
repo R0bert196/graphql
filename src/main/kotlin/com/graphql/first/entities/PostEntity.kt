@@ -1,13 +1,6 @@
 package com.graphql.first.entities
 
-import jakarta.persistence.Column
-import jakarta.persistence.Entity
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.GenerationType
-import jakarta.persistence.Id
-import jakarta.persistence.JoinColumn
-import jakarta.persistence.ManyToOne
-import jakarta.persistence.Table
+import jakarta.persistence.*
 import java.util.*
 
 
@@ -27,5 +20,8 @@ data class PostEntity(
 
     @ManyToOne
     @JoinColumn(name = "author_id")
-    val author: UserEntity
+    val author: UserEntity,
+
+    @OneToMany(mappedBy = "post")
+    val comments: Set<CommentEntity> = setOf(),
 )

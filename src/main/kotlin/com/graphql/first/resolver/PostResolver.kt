@@ -1,5 +1,6 @@
 package com.graphql.first.resolver
 
+import com.graphql.first.repositories.PostRepository
 import com.graphql.first.services.PostService
 import com.graphql.first.services.UserService
 import org.springframework.graphql.data.method.annotation.Argument
@@ -13,7 +14,7 @@ import java.util.UUID
 @Controller
 class PostResolver(
     private val postService: PostService,
-    private val userService: UserService
+    private val userService: UserService, private val postRepository: PostRepository
 ) {
 
     @QueryMapping
@@ -44,6 +45,12 @@ class PostResolver(
         val userId = user.id ?: throw RuntimeException("User id cannot be null")
 
         return postService.getPostsByAuthorId(userId).size;
+    }
+
+    @SchemaMapping(typeName = "User")
+    fun post(comment: Comment): Post {
+        val post = comment.post ?: throw RuntimeException("Invalid post for comment")
+        return postService.getPostById(post.id!!)
     }
 }
 

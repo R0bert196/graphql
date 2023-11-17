@@ -1,7 +1,9 @@
 package com.graphql.first
 
+import com.graphql.first.entities.CommentEntity
 import com.graphql.first.entities.PostEntity
 import com.graphql.first.entities.UserEntity
+import com.graphql.first.repositories.CommentRepository
 import com.graphql.first.repositories.PostRepository
 import com.graphql.first.repositories.UserRepository
 import org.springframework.boot.ApplicationRunner
@@ -16,7 +18,8 @@ class FirstApplication {
     @Bean
     fun runner(
         userRepository: UserRepository,
-        postRepository: PostRepository
+        postRepository: PostRepository,
+        commentRepository: CommentRepository
     ): ApplicationRunner {
         return ApplicationRunner {
 
@@ -33,6 +36,13 @@ class FirstApplication {
             )
 
             postRepository.save(postEntity)
+
+            val comment = CommentEntity(
+                text = "comment for the user",
+                author = user
+            )
+
+            commentRepository.save(comment)
         }
     }
 }

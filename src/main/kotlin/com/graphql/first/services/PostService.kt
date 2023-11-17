@@ -65,4 +65,16 @@ class PostService(private val postRepository: PostRepository, private val userRe
         description = savedPost.description,
     )
     }
+
+    fun getPostById(postId: UUID): Post {
+
+        val postEntity = postRepository.findById(postId)
+            .orElseThrow{ RuntimeException("Post id is not valid: $postId")}
+
+        return Post(
+            id = postEntity.id,
+            title = postEntity.title,
+            description = postEntity.description
+        )
+    }
 }
