@@ -3,6 +3,7 @@ package com.graphql.first.resolver
 import com.graphql.first.services.CommentService
 import org.springframework.graphql.data.method.annotation.Argument
 import org.springframework.graphql.data.method.annotation.QueryMapping
+import org.springframework.graphql.data.method.annotation.SchemaMapping
 import org.springframework.stereotype.Controller
 import java.util.UUID
 
@@ -17,12 +18,20 @@ class CommentResolver(
 
         return commentService.getComments(page, size)
     }
+
+    @SchemaMapping(typeName = "Post")
+    fun comments(post: Post): List<Comment> {
+        return commentService.getCommentsByPostId(post.id)
+    }
+
+    @SchemaMapping(typeName = "User")
+    fun comments(user: User): List<Comment> {
+        return commentService.getCommentsByUserId(user.id)
+    }
 }
 
 
 data class Comment(
     val id: UUID?,
     val text: String?,
-//    val author: User?,
-//    val post: Post?,
 )

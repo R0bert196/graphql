@@ -29,6 +29,7 @@ type Post {
     title: String!
     description: String
     author: User
+    comments: [Comment]!
 }
 
 type User {
@@ -36,6 +37,7 @@ type User {
     name: String!
     posts: [Post!]!
     totalPosts: Int!
+    comments: [Comment]!
 }
 
 type Event {
