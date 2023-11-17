@@ -2,6 +2,7 @@ package com.graphql.first.resolver
 
 import com.graphql.first.services.CommentService
 import org.springframework.graphql.data.method.annotation.Argument
+import org.springframework.graphql.data.method.annotation.BatchMapping
 import org.springframework.graphql.data.method.annotation.MutationMapping
 import org.springframework.graphql.data.method.annotation.QueryMapping
 import org.springframework.graphql.data.method.annotation.SchemaMapping
@@ -19,15 +20,22 @@ class CommentResolver(
         return commentService.getComments(page, size)
     }
 
+    @BatchMapping
+    fun comments(posts: List<Post>): Map<Post, List<Comment>> {
+
+        return commentService.getCommentsByPosts(posts)
+    }
+
+
     @MutationMapping
     fun addComment(@Argument("addCommentInput") addComment: AddCommentDTO): Comment {
         return commentService.saveComment(addComment)
     }
 
-    @SchemaMapping(typeName = "Post")
-    fun comments(post: Post): List<Comment> {
-        return commentService.getCommentsByPostId(post.id)
-    }
+//    @SchemaMapping(typeName = "Post")
+//    fun comments(post: Post): List<Comment> {
+//        return commentService.getCommentsByPostId(post.id)
+//    }
 
     @SchemaMapping(typeName = "User")
     fun comments(user: User): List<Comment> {

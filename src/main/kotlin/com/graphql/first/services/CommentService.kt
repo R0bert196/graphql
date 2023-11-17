@@ -76,4 +76,15 @@ class CommentService(
             text = savedComment.text,
         )
     }
+
+    fun getCommentsByPosts(posts: List<Post>): Map<Post, List<Comment>> {
+        val comments =  commentRepository.findAllByPostIds(posts.mapNotNull { it.id }.toList())
+
+        return posts.associateWith { post ->
+                comments.filter { comment -> comment.post?.id == post.id }
+                    .map { comment -> Comment(id = comment.id, text = comment.text) }
+                    .toList()
+        }
+    }
+
 }
