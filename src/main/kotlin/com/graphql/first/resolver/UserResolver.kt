@@ -2,6 +2,7 @@ package com.graphql.first.resolver
 
 import com.graphql.first.services.UserService
 import org.springframework.graphql.data.method.annotation.Argument
+import org.springframework.graphql.data.method.annotation.MutationMapping
 import org.springframework.graphql.data.method.annotation.QueryMapping
 import org.springframework.graphql.data.method.annotation.SchemaMapping
 import org.springframework.stereotype.Controller
@@ -12,8 +13,12 @@ class UserResolver(private val userService: UserService) {
 
     @QueryMapping
     fun getUsers(@Argument page: Int, @Argument size: Int): List<User> {
-
         return userService.getUsers(page, size);
+    }
+
+    @MutationMapping
+    fun addUser(@Argument addUserInput: AddUserInput) : UUID {
+        return userService.addUser(addUserInput)
     }
 
     //  field resolver

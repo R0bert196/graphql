@@ -6,5 +6,5 @@ import java.util.UUID
 
 interface PostRepository: JpaRepository<PostEntity, UUID> {
 
-    fun findAllByAuthor_Id(authorId: UUID): List<PostEntity>
+    fun findAllByAuthorId(authorId: UUID): List<PostEntity>
 }

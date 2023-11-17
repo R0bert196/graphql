@@ -14,17 +14,14 @@ import kotlin.RuntimeException
 @Service
 class UserService(
     private val userRepository: UserRepository,
-    private val postRepository: PostRepository
 ) {
 
     fun findByPostId(postId: UUID): User {
-        val postEntity = postRepository.findById(postId).orElseThrow {
-            RuntimeException("post does not exist for this user postId $postId ")
-        }
 
+        val userEntity = userRepository.findByPostsId(postId)
         return User(
-            id = postEntity.author.id,
-            name = postEntity.author.name
+            id = userEntity.id,
+            name = userEntity.name
         )
     }
 

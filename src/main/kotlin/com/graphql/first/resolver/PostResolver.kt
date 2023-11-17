@@ -26,9 +26,10 @@ class PostResolver(
         return postService.getPosts(page, size)
     }
 
+
     @MutationMapping
-    fun addUser(@Argument addUserInput: AddUserInput) : UUID {
-        return userService.addUser(addUserInput)
+    fun addPost(@Argument addPostInput: AddPostInput): Post {
+        return postService.addPost(addPostInput)
     }
 
     @SchemaMapping(typeName = "User")
@@ -45,5 +46,11 @@ data class Post(
     val id: UUID?,
     val title: String,
     val description: String?
+)
+
+data class AddPostInput (
+    val title: String,
+    val description: String,
+    val authorId: UUID
 )
 
