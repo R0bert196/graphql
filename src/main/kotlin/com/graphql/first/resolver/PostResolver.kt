@@ -3,6 +3,7 @@ package com.graphql.first.resolver
 import com.graphql.first.services.PostService
 import com.graphql.first.services.UserService
 import org.springframework.graphql.data.method.annotation.Argument
+import org.springframework.graphql.data.method.annotation.MutationMapping
 import org.springframework.graphql.data.method.annotation.QueryMapping
 import org.springframework.graphql.data.method.annotation.SchemaMapping
 import org.springframework.stereotype.Controller
@@ -25,6 +26,10 @@ class PostResolver(
         return postService.getPosts(page, size)
     }
 
+    @MutationMapping
+    fun addUser(@Argument addUserInput: AddUserInput) : UUID {
+        return userService.addUser(addUserInput)
+    }
 
     //  field resolver
     //  executed when a user is accessed through the Post node
@@ -53,5 +58,9 @@ data class Post(
 
 data class User(
     val id: UUID?,
+    val name: String
+)
+
+data class AddUserInput(
     val name: String
 )
