@@ -12,8 +12,11 @@ import java.util.*
 class HelloWorldResolver {
 
     @QueryMapping
-    fun test(@Argument date: LocalDate, @Argument bornAt: OffsetDateTime): String {
-        return "date: $date, bor at: $bornAt"
+    fun test(@Argument date: LocalDate,
+             @Argument bornAt: OffsetDateTime,
+             @Argument phoneNumber: String)
+    : String {
+        return "date: $date, bor at: $bornAt, phone number: $phoneNumber"
     }
 
     @QueryMapping
