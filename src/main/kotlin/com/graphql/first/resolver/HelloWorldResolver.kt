@@ -3,11 +3,18 @@ package com.graphql.first.resolver
 import org.springframework.graphql.data.method.annotation.Argument
 import org.springframework.graphql.data.method.annotation.QueryMapping
 import org.springframework.stereotype.Controller
+import java.time.LocalDate
 import java.util.*
 
 
 @Controller
 class HelloWorldResolver {
+
+    @QueryMapping
+    fun test(@Argument date: LocalDate): String {
+        return "date: $date"
+    }
+
     @QueryMapping
     fun helloWorld(): String {
         return "Hello World!"
