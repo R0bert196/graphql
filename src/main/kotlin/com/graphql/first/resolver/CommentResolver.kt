@@ -26,21 +26,28 @@ class CommentResolver(
         return commentService.getCommentsByPosts(posts)
     }
 
+    @BatchMapping
+    fun commentsForUser(users: List<User>): Map<User, List<Comment>> {
+        return commentService.getCommentsForUsers(users)
+    }
+
+    // Non batching version is made with @SchemaMapping
+//    @SchemaMapping(typeName = "Post")
+//    fun comments(post: Post): List<Comment> {
+//        return commentService.getCommentsByPostId(post.id)
+//    }
+
+//    @SchemaMapping(typeName = "User")
+//    fun comments(user: User): List<Comment> {
+//        return commentService.getCommentsByUserId(user.id)
+//    }
 
     @MutationMapping
     fun addComment(@Argument("addCommentInput") addComment: AddCommentDTO): Comment {
         return commentService.saveComment(addComment)
     }
 
-//    @SchemaMapping(typeName = "Post")
-//    fun comments(post: Post): List<Comment> {
-//        return commentService.getCommentsByPostId(post.id)
-//    }
 
-    @SchemaMapping(typeName = "User")
-    fun comments(user: User): List<Comment> {
-        return commentService.getCommentsByUserId(user.id)
-    }
 }
 
 

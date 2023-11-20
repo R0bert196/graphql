@@ -44,7 +44,7 @@ type User {
     name: String!
     posts: [Post!]!
     totalPosts: Int!
-    comments: [Comment]!
+    commentsForUser: [Comment]!
 }
 
 type Event {

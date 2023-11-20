@@ -87,4 +87,14 @@ class CommentService(
         }
     }
 
+    fun getCommentsForUsers(authors: List<User>): Map<User, List<Comment>> {
+        val comments = commentRepository.findAllByAuthorIds(authors.mapNotNull { it.id }.toList())
+
+        return authors.associateWith { author ->
+            comments.filter { comment -> comment.author?.id == author.id }
+                .map { comment -> Comment(id = comment.id, text = comment.text) }
+                .toList()
+        }
+    }
+
 }

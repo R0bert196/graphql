@@ -27,7 +27,11 @@ class FirstApplication {
                 name = "Test user"
             )
 
-            userRepository.save(user)
+            val user2 = UserEntity(
+                name = "Robert C"
+            )
+
+            userRepository.saveAll(listOf(user, user2))
 
             val postEntity = PostEntity(
                 title = "Test title",
@@ -35,14 +39,24 @@ class FirstApplication {
                 author = user
             )
 
-            postRepository.save(postEntity)
+            postRepository.saveAll(listOf(postEntity))
 
             val comment = CommentEntity(
                 text = "comment for the user",
                 author = user
             )
 
-            commentRepository.save(comment)
+            val comment2 = CommentEntity(
+                text = "comment for robert",
+                author = user2
+            )
+
+            val comment3 = CommentEntity(
+                text = "another comment for robert",
+                author = user2
+            )
+
+            commentRepository.saveAll(listOf(comment, comment2, comment3))
         }
     }
 }

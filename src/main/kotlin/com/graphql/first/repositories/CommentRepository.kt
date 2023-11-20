@@ -14,4 +14,7 @@ interface CommentRepository: JpaRepository<CommentEntity, UUID> {
 
     @Query("select c from CommentEntity c where c.post.id in ?1")
     fun findAllByPostIds(postIds: List<UUID>): List<CommentEntity>
+
+    @Query("select c from CommentEntity  c where c.author.id in ?1")
+    fun findAllByAuthorIds(authorIds: List<UUID>): List<CommentEntity>
 }
