@@ -7,7 +7,7 @@ type Query {
     recentPosts(page: Int!, size: Int!): [Post!]!
     getUsers(page: Int!, size: Int!): [User!]!
     getComments(page: Int!, size: Int!): [Comment]!
-    test(date: Date): String
+    test(date: Date, bornAt: DateTime): String
 }
 
 type Mutation {

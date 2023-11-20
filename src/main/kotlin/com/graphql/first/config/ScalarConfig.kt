@@ -14,6 +14,7 @@ class ScalarConfig {
     fun runtimeWiringConfigurer(): RuntimeWiringConfigurer {
         return RuntimeWiringConfigurer { builder: RuntimeWiring.Builder ->
             builder.scalar(ExtendedScalars.Date)
+                .scalar(ExtendedScalars.DateTime)
         }
     }
 }
