@@ -26,6 +26,7 @@ class GraphqlConfig {
                 )
                 .scalar(email())
                 .directiveWiring(validationSchemaWiring())
+                .directiveWiring(UppercaseDirective())
         }
     }
 

@@ -12,7 +12,7 @@ type Query {
         name: String! @NotBlank(message: "It can't be empty"),
         list: [Int!]! @ContainerNotEmpty(message: "The list should not be empty"),
         email: String! @Pattern(regexp: "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$", message: "Please type a valid email")
-    ): String
+    ): String @Uppercase
 }
 
 type Mutation {
