@@ -8,6 +8,10 @@ type Query {
     getUsers(page: Int!, size: Int!): [User!]!
     getComments(page: Int!, size: Int!): [Comment]!
     test(date: Date, bornAt: DateTime, phoneNumber: PhoneNumber, email: Email): String
+    validationCheck(
+        name: String! @NotBlank(message: "It can't be empty"),
+        list: [Int!]! @ContainerNotEmpty(message: "The list should not be empty")
+    ): String
 }
 
 type Mutation {
