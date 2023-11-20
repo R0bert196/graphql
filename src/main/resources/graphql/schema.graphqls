@@ -1,6 +1,6 @@
 type Query {
     helloWorld: String
-    greet(name: String!): String!
+    greet(name: String!, @Size(min: 5, max: 10, message: "name should contain at least 5 characters")): String!
     getRandomNumbers: [Int!]!
     getEvent: Event!
     getPosts: [Post!]!
