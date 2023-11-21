@@ -33,12 +33,20 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("com.graphql-java:graphql-java-extended-scalars:21.0")
     implementation("com.graphql-java:graphql-java-extended-validation:21.0")
+
+    implementation("org.springframework.boot:spring-boot-starter-security:3.1.5")
+    implementation("io.jsonwebtoken:jjwt:0.12.3")
+    implementation("io.jsonwebtoken:jjwt-api:0.12.3")
+    implementation("io.jsonwebtoken:jjwt-impl:0.12.3")
+
     compileOnly("org.projectlombok:lombok")
     runtimeOnly("com.h2database:h2")
     annotationProcessor("org.projectlombok:lombok")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework:spring-webflux")
     testImplementation("org.springframework.graphql:spring-graphql-test")
+
+    runtimeOnly("io.jsonwebtoken:jjwt-impl:0.11.5")
 }
 
 tasks.withType<KotlinCompile> {
