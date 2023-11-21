@@ -1,15 +1,24 @@
 package com.graphql.first.resolver
 
 import com.graphql.first.services.UserService
+import com.graphql.first.util.JwtUtil
+import jakarta.validation.Valid
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.graphql.data.method.annotation.Argument
 import org.springframework.graphql.data.method.annotation.MutationMapping
 import org.springframework.graphql.data.method.annotation.QueryMapping
 import org.springframework.graphql.data.method.annotation.SchemaMapping
 import org.springframework.stereotype.Controller
 import java.util.*
+import javax.crypto.SecretKey
 
 @Controller
-class UserResolver(private val userService: UserService) {
+class UserResolver(
+    private val userService: UserService,
+
+    @Value("\${secretKey}")
+    private val secretKey: String
+) {
 
     @QueryMapping
     fun getUsers(@Argument page: Int, @Argument size: Int): List<User> {
@@ -34,6 +43,11 @@ class UserResolver(private val userService: UserService) {
     fun author(comment: Comment): User? {
         return userService.getUserByCommentId(comment.id)
     }
+
+    @MutationMapping
+    fun login(@Argument username: String, @Argument password: String) =
+        JwtUtil.generateJwtToken(username, secretKey, listOf("ADMIN", "USER"))
+
 }
 
 data class User(
