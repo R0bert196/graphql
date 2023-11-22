@@ -10,6 +10,7 @@ import org.springframework.boot.ApplicationRunner
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import org.springframework.context.annotation.Bean
+import org.springframework.context.annotation.Profile
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Component
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Component
 @SpringBootApplication
 class FirstApplication {
 
+    @Profile("!test")
     @Bean
     fun runner(
         userRepository: UserRepository,
