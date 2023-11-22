@@ -29,7 +29,7 @@ class PostResolver(
     }
 
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @MutationMapping
     fun addPost(@Argument addPostInput: AddPostInput): Post {
         return postService.addPost(addPostInput)
