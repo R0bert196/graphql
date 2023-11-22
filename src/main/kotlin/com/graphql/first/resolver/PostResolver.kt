@@ -18,23 +18,26 @@ class PostResolver(
     private val userService: UserService, private val postRepository: PostRepository
 ) {
 
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     @QueryMapping
     fun getPosts(): List<Post> {
         return postService.getPosts()
     }
 
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     @QueryMapping
     fun recentPosts(@Argument page: Int, @Argument size: Int): List<Post> {
         return postService.getPosts(page, size)
     }
 
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     @MutationMapping
     fun addPost(@Argument addPostInput: AddPostInput): Post {
         return postService.addPost(addPostInput)
     }
 
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     @SchemaMapping(typeName = "User")
     fun posts(user: User): List<Post> {
         val userId = user.id ?: throw RuntimeException("User id cannot be null")
@@ -42,6 +45,7 @@ class PostResolver(
         return postService.getPostsByAuthorId(userId);
     }
 
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     @SchemaMapping(typeName = "User")
     fun totalPosts(user: User): Int {
         val userId = user.id ?: throw RuntimeException("User id cannot be null")
@@ -49,6 +53,7 @@ class PostResolver(
         return postService.getPostsByAuthorId(userId).size;
     }
 
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     @SchemaMapping(typeName = "Comment")
     fun post(comment: Comment): Post? {
         return postService.getPostByCommentId(comment.id)
