@@ -15,6 +15,11 @@ class UserEntity(
     @Column
     val name: String,
 
+    @Column
+    val password: String,
+
+    val roles: String,
+
     @OneToMany(mappedBy = "author")
     val posts: Set<PostEntity> = setOf(),
 

@@ -30,6 +30,8 @@ input AddCommentInput {
 
 input AddUserInput {
     name: String!
+    password: String!
+    roles: String!
 }
 
 input AddPostInput {

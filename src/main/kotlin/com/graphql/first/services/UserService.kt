@@ -8,6 +8,7 @@ import com.graphql.first.resolver.Post
 import com.graphql.first.resolver.User
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
+import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import java.util.*
 import kotlin.RuntimeException
@@ -15,6 +16,7 @@ import kotlin.RuntimeException
 @Service
 class UserService(
     private val userRepository: UserRepository,
+    private val passwordEncoder: PasswordEncoder
 ) {
 
     fun findByPostId(postId: UUID): User {
@@ -28,7 +30,9 @@ class UserService(
 
     fun addUser(addUserInput: AddUserInput): UUID {
         val userEntity = UserEntity(
-            name = addUserInput.name
+            name = addUserInput.name,
+            password = passwordEncoder.encode(addUserInput.password),
+            roles = addUserInput.roles
         )
 
         val user = userRepository.save(userEntity)

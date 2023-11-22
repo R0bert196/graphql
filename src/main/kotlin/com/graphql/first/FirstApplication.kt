@@ -11,6 +11,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import org.springframework.context.annotation.Bean
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity
+import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Component
 
 @EnableMethodSecurity(securedEnabled = true)
@@ -21,16 +22,21 @@ class FirstApplication {
     fun runner(
         userRepository: UserRepository,
         postRepository: PostRepository,
-        commentRepository: CommentRepository
+        commentRepository: CommentRepository,
+        passwordEncoder: PasswordEncoder
     ): ApplicationRunner {
         return ApplicationRunner {
 
             val user = UserEntity(
-                name = "Test user"
+                name = "Test user",
+                password = passwordEncoder.encode("pass"),
+                roles = "ROLE_USER"
             )
 
             val user2 = UserEntity(
-                name = "Robert C"
+                name = "Robert C",
+                password = passwordEncoder.encode("robert"),
+                roles = "ROLE_ADMIN"
             )
 
             userRepository.saveAll(listOf(user, user2))

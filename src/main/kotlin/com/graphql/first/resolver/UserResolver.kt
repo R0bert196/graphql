@@ -60,5 +60,7 @@ data class User(
 )
 
 data class AddUserInput(
-    val name: String
+    val name: String,
+    val password: String,
+    val roles: String
 )
