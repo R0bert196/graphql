@@ -6,8 +6,11 @@ import com.graphql.first.repositories.UserRepository
 import com.graphql.first.resolver.AddUserInput
 import com.graphql.first.resolver.Post
 import com.graphql.first.resolver.User
+import com.graphql.first.util.JwtUtil
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
+import org.springframework.security.authentication.BadCredentialsException
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import java.util.*
@@ -16,7 +19,9 @@ import kotlin.RuntimeException
 @Service
 class UserService(
     private val userRepository: UserRepository,
-    private val passwordEncoder: PasswordEncoder
+    private val passwordEncoder: PasswordEncoder,
+    @Value("\${secretKey}")
+    private val secretKey: String
 ) {
 
     fun findByPostId(postId: UUID): User {
@@ -79,5 +84,16 @@ class UserService(
         }
 
         return null
+    }
+
+    fun login(username: String, password: String): String {
+
+        val user = userRepository.findByName(username) ?: throw RuntimeException("Wrong username of password")
+
+        if (!passwordEncoder.matches(password, user.password)) {
+            throw BadCredentialsException("Wrong username or password")
+        }
+
+        return JwtUtil.generateJwtToken(username, secretKey, user.roles.split(", "))
     }
 }

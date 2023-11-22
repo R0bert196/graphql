@@ -49,8 +49,10 @@ class UserResolver(
     }
 
     @MutationMapping
-    fun login(@Argument username: String, @Argument password: String) =
-        JwtUtil.generateJwtToken(username, secretKey, listOf("ROLE_ADMIN", "ROLE_USER"))
+    fun login(@Argument username: String, @Argument password: String): String {
+        return userService.login(username, password)
+    }
+
 
 }
 

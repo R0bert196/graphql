@@ -10,4 +10,6 @@ interface UserRepository: JpaRepository<UserEntity, UUID> {
     fun findByPostsId(postId: UUID): UserEntity
 
     fun findByCommentsId(commentId: UUID): UserEntity?
+
+    fun findByName(username: String): UserEntity?
 }
