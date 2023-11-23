@@ -54,7 +54,7 @@ class UserResolverTest(
             // language=GraphQL
             val createUserMutation = """
                 mutation {
-                addUser(addUserInput: {name: "Vikas", password: "pass", roles: "ROLE_USER"})
+                addUser(addUserInput: {name: "Vikas2", password: "pass", roles: "ROLE_USER"})
                 }
             """.trimIndent()
 
@@ -75,7 +75,7 @@ class UserResolverTest(
             newUserList.firstOrNull {
                 it.id == UUID.fromString(userId)
             }.shouldNotBeNull()
-                .name.shouldBe("Vikas")
+                .name.shouldBe("Vikas2")
         }
 
         it("should allow to users to login with valid credentials") {
@@ -99,7 +99,7 @@ class UserResolverTest(
                 }
             """.trimIndent()
 
-            val token =  graphQlTesterForUnsecureOperations.document(loginMutation)
+            val token = graphQlTesterForUnsecureOperations.document(loginMutation)
                 .variable("username", "Vikas")
                 .variable("password", "pass")
                 .execute()
@@ -110,11 +110,45 @@ class UserResolverTest(
             token.shouldNotBeNull()
         }
 
+        it("should allow to perform get users query") {
+
+            // language=GraphQL
+            val createUserMutation = """
+                mutation {
+                addUser(addUserInput: {name: "Vikas", password: "pass", roles: "ROLE_USER"})
+                }
+            """.trimIndent()
+
+
+            graphQlTesterForUnsecureOperations.document(
+                createUserMutation
+            ).executeAndVerify()
+
+            // language=GraphQL
+            val getUserQuery = """
+                query getUsers(${'$'}page: Int!, ${'$'}size: Int!) {
+                    getUsers(page: ${'$'}page, size: ${'$'}size) {
+                        name
+                    }
+                }
+            """.trimIndent()
+
+            data class UserTest(val name: String)
+
+            val users = graphQlTesterForSecureOperations
+                .document(getUserQuery)
+                .variable("page", 0)
+                .variable("size", 1)
+                .execute()
+                .path("getUsers")
+                .entityList(UserTest::class.java)
+                .get()
+
+            users.size.shouldBe(1)
+        }
+
 
     }
 
 
-}) {
-    @Autowired
-    private lateinit var userRepository: UserRepository
-}
+})
