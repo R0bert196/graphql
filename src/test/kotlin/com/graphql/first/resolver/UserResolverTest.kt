@@ -78,6 +78,38 @@ class UserResolverTest(
                 .name.shouldBe("Vikas")
         }
 
+        it("should allow to users to login with valid credentials") {
+
+            // language=GraphQL
+            val createUserMutation = """
+                mutation {
+                addUser(addUserInput: {name: "Vikas", password: "pass", roles: "ROLE_USER"})
+                }
+            """.trimIndent()
+
+
+            graphQlTesterForUnsecureOperations.document(
+                createUserMutation
+            ).executeAndVerify()
+
+            // language=GraphQL
+            val loginMutation = """
+                mutation login(${'$'}username: String!, ${'$'} password: String!) {
+                    login(username: ${'$'}username, password: ${'$'} password)
+                }
+            """.trimIndent()
+
+            val token =  graphQlTesterForUnsecureOperations.document(loginMutation)
+                .variable("username", "Vikas")
+                .variable("password", "pass")
+                .execute()
+                .path("login")
+                .entity(String::class.java)
+                .get()
+
+            token.shouldNotBeNull()
+        }
+
 
     }
 
