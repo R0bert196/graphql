@@ -60,6 +60,46 @@ class HelloWorldResolverTest(
                     event.id.shouldNotBeNull()
                 }
         }
+
+        it("should return success data when execute greet Query") {
+
+            // language=GraphQl
+            val GREET_QUERY = """
+                query greet(${'$'}name: String!){
+                greet(name: ${'$'}name)
+                }
+            """.trimIndent()
+
+
+            grapgQlTester.document(GREET_QUERY)
+                .variable("name", "Robert")
+                .execute()
+                .path("greet")
+                .entity(String::class.java)
+                .satisfies{
+                    it.shouldBe("Hello Robert")
+                }
+        }
+
+        it("should throw error when greet Query executed with too short name") {
+
+            // language=GraphQl
+            val GREET_QUERY = """
+                query greet(${'$'}name: String!){
+                greet(name: ${'$'}name)
+                }
+            """.trimIndent()
+
+
+            grapgQlTester.document(GREET_QUERY)
+                .variable("name", "Rob")
+                .execute()
+                .errors()
+                .satisfy{
+                    error -> error.get(0).message.shouldBe("name should contain at least 5 characters")
+                }
+        }
+
     }
 
 
