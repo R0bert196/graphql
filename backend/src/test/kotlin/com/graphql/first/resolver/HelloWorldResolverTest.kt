@@ -34,7 +34,7 @@ class HelloWorldResolverTest(
             ).execute()
                 .path("helloWorld")
                 .entity(String::class.java)
-                .isEqualTo("Hello World1")
+                .isEqualTo("Hello World!")
 
         }
 
