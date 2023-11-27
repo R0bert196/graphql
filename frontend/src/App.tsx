@@ -1,11 +1,12 @@
 import './App.css';
 import HelloWorld from './components/HelloWorld';
+import Layout from './components/common/layout/Index';
 
 function App() {
   return (
-    <div className="App">
-      <HelloWorld />
-    </div>
+    <Layout>
+      <div>main</div>
+    </Layout>
   );
 }
 
