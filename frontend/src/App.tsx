@@ -4,6 +4,7 @@ import HelloWorld from "./components/HelloWorld";
 import Layout from "./components/common/layout/Index";
 import LoginContainer from "./components/login/LoginContainer";
 import RequireAuth from "./components/common/RequireAuth";
+import PostContainer from "./components/posts/PostContainer";
 
 function App() {
   return (
@@ -14,7 +15,7 @@ function App() {
         <Route element={<RequireAuth roles={["ROLE_ADMIN", "ROLE_USER"]} />}>
           <Route path='/posts'>
             {/* Only allow access to ADMIN, USER  */}
-            <Route index element={<div>Post page</div>} />
+            <Route index element={<PostContainer />} />
 
             {/* Only allow access to ADMIN  */}
             <Route element={<RequireAuth roles={["ROLE_ADMIN"]} />}>

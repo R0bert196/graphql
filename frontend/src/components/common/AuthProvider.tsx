@@ -1,5 +1,6 @@
 import React, { FC, ReactNode, useEffect, useMemo, useState } from "react";
 import { jwtDecode } from "jwt-decode";
+import Loader from "./Loader";
 
 interface Props {
   children: ReactNode;
@@ -20,6 +21,7 @@ const AuthContext = React.createContext<AuthContextData | null>(null);
 
 const AuthProvider: FC<Props> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const jwtToken = localStorage.getItem("token2");
@@ -34,6 +36,7 @@ const AuthProvider: FC<Props> = ({ children }) => {
         roles: decodedToken.roles,
       });
     }
+    setLoading(false);
   }, []);
 
   const clearToken = () => {
@@ -61,7 +64,12 @@ const AuthProvider: FC<Props> = ({ children }) => {
   );
 
   return (
-    <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>
+    <AuthContext.Provider value={contextValue}>
+      <>
+        {loading && <Loader open={loading} />}
+        {!loading && <> {children} </>}
+      </>
+    </AuthContext.Provider>
   );
 };
 
