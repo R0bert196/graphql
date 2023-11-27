@@ -5,10 +5,26 @@ import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import MenuIcon from "@mui/icons-material/Menu";
 import { FC } from "react";
+import { Box } from "@mui/material";
+import LoginIcon from "@mui/icons-material/Login";
+import LogoutIcon from "@mui/icons-material/Logout";
+import RegisterIcon from "@mui/icons-material/HowToReg";
+import { Link } from "react-router-dom";
 
 interface AppBarProps extends MuiAppBarProps {
   open?: boolean;
 }
+
+const UserOptionDiv = styled(Box)({
+  width: "90%",
+  justifyContent: "space-between",
+  display: "flex",
+});
+
+const StyledLink = styled(Link)({
+  color: "inherit",
+  textDecoration: "none",
+});
 
 const drawerWidth = 240;
 
@@ -47,9 +63,28 @@ const Header: FC<Props> = ({ open, handleDrawerOpen }) => {
         >
           <MenuIcon />
         </IconButton>
-        <Typography variant='h6' noWrap component='div'>
-          Persistent drawer
-        </Typography>
+        <UserOptionDiv>
+          <Typography variant='h6' noWrap component='div'>
+            Stack Overflow
+          </Typography>
+          <Box>
+            <StyledLink to='/login'>
+              <IconButton color='inherit' edge='start' sx={{ mr: 2 }}>
+                <LoginIcon />
+              </IconButton>
+            </StyledLink>
+            <StyledLink to='/logout'>
+              <IconButton color='inherit' edge='start' sx={{ mr: 2 }}>
+                <RegisterIcon />
+              </IconButton>
+            </StyledLink>
+            <StyledLink to='/login'>
+              <IconButton color='inherit' edge='start' sx={{ mr: 2 }}>
+                <LogoutIcon />
+              </IconButton>
+            </StyledLink>
+          </Box>
+        </UserOptionDiv>
       </Toolbar>
     </AppBar>
   );

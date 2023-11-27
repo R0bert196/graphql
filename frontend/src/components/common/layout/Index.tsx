@@ -1,4 +1,4 @@
-import { ReactNode, useState } from "react";
+import { ReactNode, useMemo, useState } from "react";
 import Header from "./Header";
 import { Box } from "@mui/material";
 import { styled, useTheme } from "@mui/material/styles";
@@ -14,14 +14,22 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
+import DescriptionIcon from "@mui/icons-material/Description";
+import CommentIcon from "@mui/icons-material/QuestionAnswer";
+import UserIcon from "@mui/icons-material/Person";
+import AddPostIcon from "@mui/icons-material/PostAdd";
+import { Link, Outlet } from "react-router-dom";
 
 const drawerWidth = 240;
 
-interface Props {
-  children: ReactNode;
-}
 
-const Layout: React.FC<Props> = ({ children }) => {
+const StyledLink = styled(Link)({
+  color: "inherit",
+  textDecoration: "none",
+  width: "100%",
+});
+
+const Layout: React.FC<{}> = () => {
   const theme = useTheme();
   const [open, setOpen] = useState(false);
 
@@ -63,6 +71,31 @@ const Layout: React.FC<Props> = ({ children }) => {
     }),
   }));
 
+  const drawerOptions = useMemo(() => {
+    return [
+      {
+        text: "Posts",
+        icon: <DescriptionIcon />,
+        url: "/posts",
+      },
+      {
+        text: "Users",
+        icon: <UserIcon />,
+        url: "/users",
+      },
+      {
+        text: "Comments",
+        icon: <CommentIcon />,
+        url: "/comments",
+      },
+      {
+        text: "My Posts",
+        icon: <DescriptionIcon />,
+        url: "/my-posts",
+      },
+    ];
+  }, []);
+
   return (
     <Box sx={{ display: "flex" }}>
       <Header open={open} handleDrawerOpen={handleDrawerOpen} />
@@ -90,23 +123,34 @@ const Layout: React.FC<Props> = ({ children }) => {
         </DrawerHeader>
         <Divider />
         <List>
-          {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-            <ListItem key={text} disablePadding>
-              <ListItemButton>
-                <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItemButton>
+          {drawerOptions.map((option) => (
+            <ListItem key={option.text} disablePadding>
+              <StyledLink to={option.url}>
+                <ListItemButton>
+                  <ListItemIcon>{option.icon}</ListItemIcon>
+                  <ListItemText>{option.text}</ListItemText>
+                </ListItemButton>
+              </StyledLink>
             </ListItem>
           ))}
         </List>
         <Divider />
-        option 1
+        <ListItem disablePadding>
+          <StyledLink to='/posts/new'>
+            <ListItemButton>
+              <ListItemIcon>
+                <AddPostIcon />
+              </ListItemIcon>
+              <ListItemText>New Post</ListItemText>
+            </ListItemButton>
+          </StyledLink>
+        </ListItem>
       </Drawer>
+      <Divider />
+
       <Main open={open}>
         <DrawerHeader />
-        {children}
+        <Outlet />
       </Main>
     </Box>
   );
