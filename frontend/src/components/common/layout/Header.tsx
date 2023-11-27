@@ -9,8 +9,9 @@ import { Box } from "@mui/material";
 import LoginIcon from "@mui/icons-material/Login";
 import LogoutIcon from "@mui/icons-material/Logout";
 import RegisterIcon from "@mui/icons-material/HowToReg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../AuthProvider";
+import PersonIcon from "@mui/icons-material/Person";
 
 interface AppBarProps extends MuiAppBarProps {
   open?: boolean;
@@ -53,8 +54,14 @@ interface Props {
 
 const Header: FC<Props> = ({ open, handleDrawerOpen }) => {
   const AuthContext = useAuth();
+  const navigate = useNavigate();
 
   console.log("AuthContext", AuthContext?.user);
+
+  const handleLogout = () => {
+    AuthContext?.clearToken();
+    navigate("/login");
+  };
 
   return (
     <AppBar position='fixed' open={open}>
@@ -73,21 +80,34 @@ const Header: FC<Props> = ({ open, handleDrawerOpen }) => {
             Stack Overflow
           </Typography>
           <Box>
-            <StyledLink to='/login'>
-              <IconButton color='inherit' edge='start' sx={{ mr: 2 }}>
-                <LoginIcon />
-              </IconButton>
-            </StyledLink>
-            <StyledLink to='/logout'>
-              <IconButton color='inherit' edge='start' sx={{ mr: 2 }}>
-                <RegisterIcon />
-              </IconButton>
-            </StyledLink>
-            <StyledLink to='/login'>
-              <IconButton color='inherit' edge='start' sx={{ mr: 2 }}>
-                <LogoutIcon />
-              </IconButton>
-            </StyledLink>
+            {!AuthContext?.user ? (
+              <>
+                <StyledLink to='/login'>
+                  <IconButton color='inherit' edge='start' sx={{ mr: 2 }}>
+                    <LoginIcon />
+                  </IconButton>
+                </StyledLink>
+                <StyledLink to='/register'>
+                  <IconButton color='inherit' edge='start' sx={{ mr: 2 }}>
+                    <RegisterIcon />
+                  </IconButton>
+                </StyledLink>
+              </>
+            ) : (
+              <>
+                <IconButton
+                  onClick={handleLogout}
+                  color='inherit'
+                  edge='start'
+                  sx={{ mr: 2 }}
+                >
+                  <LogoutIcon />
+                </IconButton>
+                <IconButton color='inherit' edge='start' sx={{ mr: 2 }}>
+                  <PersonIcon /> {AuthContext.user.username}
+                </IconButton>
+              </>
+            )}
           </Box>
         </UserOptionDiv>
       </Toolbar>

@@ -5,6 +5,7 @@ import { useLoginMutation } from "../../generated/graphql";
 import Loader from "../common/Loader";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../common/AuthProvider";
+import { useEffect } from "react";
 
 const validationSchema = yup.object({
   username: yup.string().required("Please enter your username"),
@@ -20,6 +21,13 @@ const LoginContainer = () => {
 
   const navigate = useNavigate();
 
+  useEffect(() => {
+    if (data && authActions) {
+      authActions?.saveToken(data?.login);
+      navigate("/");
+    }
+  }, [data, authActions]);
+
   const loginForm = useFormik({
     initialValues: {
       username: "",
@@ -32,11 +40,6 @@ const LoginContainer = () => {
           username: values.username,
           password: values.password,
         },
-      }).then(() => {
-        if (data?.login) {
-          authActions?.saveToken(data?.login);
-          navigate("/");
-        }
       });
     },
   });

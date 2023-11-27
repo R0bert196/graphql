@@ -18,7 +18,6 @@ function App() {
         <Route path='/my-posts' element={<div>My posts Page</div>} />
         <Route path='/login' element={<LoginContainer />} />
         <Route path='/register' element={<div>Register Page</div>} />
-        <Route path='/logout' element={<div>Logout</div>} />
       </Route>
     </Routes>
   );
