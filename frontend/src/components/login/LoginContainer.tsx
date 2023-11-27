@@ -1,7 +1,10 @@
-import { Box, Button, TextField, Typography } from "@mui/material";
+import { Alert, Box, Button, TextField, Typography } from "@mui/material";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { useLoginMutation } from "../../generated/graphql";
+import Loader from "../common/Loader";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../common/AuthProvider";
 
 const validationSchema = yup.object({
   username: yup.string().required("Please enter your username"),
@@ -9,10 +12,13 @@ const validationSchema = yup.object({
 });
 
 const LoginContainer = () => {
+  const authActions = useAuth();
 
-    const [login, { data, loading, error }] = useLoginMutation({
-      fetchPolicy: 'network-only'
+  const [login, { data, loading, error }] = useLoginMutation({
+    fetchPolicy: "network-only",
   });
+
+  const navigate = useNavigate();
 
   const loginForm = useFormik({
     initialValues: {
@@ -21,12 +27,17 @@ const LoginContainer = () => {
     },
     validationSchema,
     onSubmit: (values) => {
-        login({
-            variables: {
-            username: values.username,
-            password: values.password
-          }
-      })
+      login({
+        variables: {
+          username: values.username,
+          password: values.password,
+        },
+      }).then(() => {
+        if (data?.login) {
+          authActions?.saveToken(data?.login);
+          navigate("/");
+        }
+      });
     },
   });
 
@@ -77,6 +88,10 @@ const LoginContainer = () => {
           <Button variant='contained' type='submit'>
             Login
           </Button>
+          <Loader open={loading} />
+          {error && (
+            <Alert severity='error'>{error.message}, please try again.</Alert>
+          )}
         </form>
       </Box>
     </Box>

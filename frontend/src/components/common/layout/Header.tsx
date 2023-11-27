@@ -10,6 +10,7 @@ import LoginIcon from "@mui/icons-material/Login";
 import LogoutIcon from "@mui/icons-material/Logout";
 import RegisterIcon from "@mui/icons-material/HowToReg";
 import { Link } from "react-router-dom";
+import { useAuth } from "../AuthProvider";
 
 interface AppBarProps extends MuiAppBarProps {
   open?: boolean;
@@ -51,6 +52,10 @@ interface Props {
 }
 
 const Header: FC<Props> = ({ open, handleDrawerOpen }) => {
+  const AuthContext = useAuth();
+
+  console.log("AuthContext", AuthContext?.user);
+
   return (
     <AppBar position='fixed' open={open}>
       <Toolbar>
