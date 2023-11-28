@@ -62,6 +62,5 @@ data class Comment(
 
 data class AddCommentDTO(
     val text: String,
-    val authorId: UUID?,
     val postId: UUID?
 )

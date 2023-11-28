@@ -11,6 +11,7 @@ import com.graphql.first.resolver.Comment
 import com.graphql.first.resolver.Post
 import com.graphql.first.resolver.User
 import org.springframework.data.domain.PageRequest
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 import java.awt.print.Pageable
 import java.util.*
@@ -60,7 +61,10 @@ class CommentService(
 
     fun saveComment(addComment: AddCommentDTO): Comment {
 
-        val userOptional: UserEntity? = addComment.authorId?.let { userRepository.findById(it).orElse(null) }
+        val loggedInUserName = SecurityContextHolder.getContext().authentication.name
+
+        val userOptional = userRepository.findByName(loggedInUserName)
+
         val postOptional: PostEntity? = addComment.postId?.let { postRepository.findById(it).orElse(null) }
 
         val comment = CommentEntity(
