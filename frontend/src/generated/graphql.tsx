@@ -172,6 +172,15 @@ export type AddPostMutationVariables = Exact<{
 
 export type AddPostMutation = { __typename?: 'Mutation', addPost: { __typename?: 'Post', id: string, title: string } };
 
+export type AddUserMutationVariables = Exact<{
+  name: Scalars['String'];
+  password: Scalars['String'];
+  roles: Scalars['String'];
+}>;
+
+
+export type AddUserMutation = { __typename?: 'Mutation', addUser: string };
+
 export type HelloWorldQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -285,6 +294,39 @@ export function useAddPostMutation(baseOptions?: Apollo.MutationHookOptions<AddP
 export type AddPostMutationHookResult = ReturnType<typeof useAddPostMutation>;
 export type AddPostMutationResult = Apollo.MutationResult<AddPostMutation>;
 export type AddPostMutationOptions = Apollo.BaseMutationOptions<AddPostMutation, AddPostMutationVariables>;
+export const AddUserDocument = gql`
+    mutation AddUser($name: String!, $password: String!, $roles: String!) {
+  addUser(addUserInput: {name: $name, password: $password, roles: $roles})
+}
+    `;
+export type AddUserMutationFn = Apollo.MutationFunction<AddUserMutation, AddUserMutationVariables>;
+
+/**
+ * __useAddUserMutation__
+ *
+ * To run a mutation, you first call `useAddUserMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddUserMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addUserMutation, { data, loading, error }] = useAddUserMutation({
+ *   variables: {
+ *      name: // value for 'name'
+ *      password: // value for 'password'
+ *      roles: // value for 'roles'
+ *   },
+ * });
+ */
+export function useAddUserMutation(baseOptions?: Apollo.MutationHookOptions<AddUserMutation, AddUserMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AddUserMutation, AddUserMutationVariables>(AddUserDocument, options);
+      }
+export type AddUserMutationHookResult = ReturnType<typeof useAddUserMutation>;
+export type AddUserMutationResult = Apollo.MutationResult<AddUserMutation>;
+export type AddUserMutationOptions = Apollo.BaseMutationOptions<AddUserMutation, AddUserMutationVariables>;
 export const HelloWorldDocument = gql`
     query HelloWorld {
   helloWorld

@@ -6,6 +6,7 @@ import LoginContainer from "./components/login/LoginContainer";
 import RequireAuth from "./components/common/RequireAuth";
 import PostContainer from "./components/posts/PostContainer";
 import AddPost from "./components/posts/AddPost";
+import RegisterUser from "./components/users/RegisterUser";
 
 function App() {
   return (
@@ -32,7 +33,7 @@ function App() {
 
         {/* public routes  */}
         <Route path='/login' element={<LoginContainer />} />
-        <Route path='/register' element={<div>Register Page</div>} />
+        <Route path='/register' element={<RegisterUser />} />
         <Route
           path='unauthorized'
           element={

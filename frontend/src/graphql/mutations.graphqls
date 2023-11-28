@@ -15,3 +15,7 @@ mutation AddPost($title: String!, $description: String!) {
     title
   }
 }
+
+mutation AddUser($name: String!, $password: String!, $roles: String!) {
+  addUser(addUserInput: { name: $name, password: $password, roles: $roles })
+}

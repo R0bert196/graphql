@@ -3,7 +3,7 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 import { useLoginMutation } from "../../generated/graphql";
 import Loader from "../common/Loader";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../common/AuthProvider";
 import { useEffect } from "react";
 
@@ -14,7 +14,6 @@ const validationSchema = yup.object({
 
 const LoginContainer = () => {
   const authActions = useAuth();
-
   const [login, { data, loading, error }] = useLoginMutation({
     fetchPolicy: "network-only",
   });
@@ -26,7 +25,7 @@ const LoginContainer = () => {
 
   useEffect(() => {
     if (data && authActions) {
-      authActions?.saveToken(data?.login);
+      authActions.saveToken(data.login);
       navigate(successRedirectUrl, { replace: true });
     }
   }, [data, authActions]);
@@ -37,34 +36,42 @@ const LoginContainer = () => {
       password: "",
     },
     validationSchema,
-    onSubmit: (values) => {
-      login({
-        variables: {
-          username: values.username,
-          password: values.password,
-        },
-      });
+    onSubmit: async (values) => {
+      try {
+        const result = await login({
+          variables: {
+            username: values.username,
+            password: values.password,
+          },
+        });
+
+        // Check if the mutation was successful
+        if (result && result.data && authActions) {
+          authActions.saveToken(result.data.login);
+          navigate(successRedirectUrl, { replace: true });
+        }
+      } catch (error) {
+        // Handle errors here
+        console.error("Login failed:", error);
+      }
     },
   });
 
   return (
-    <Box sx={{ textAlign: "center", marginTop: "2rem" }}>
-      <Typography variant='h6'>Login</Typography>
+    <Box sx={{ textAlign: "center", marginTop: "2em" }}>
+      <Typography variant='h6'>
+        Login / <Link to={"/register"}>Register</Link>
+      </Typography>
       <Box sx={{ display: "flex", justifyContent: "center" }}>
         <form
           onSubmit={loginForm.handleSubmit}
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            width: "30%",
-            gap: "1rem",
-          }}
+          style={{ display: "flex", flexDirection: "column", width: "30%" }}
         >
           <TextField
             id='username'
             name='username'
             placeholder='Enter username'
-            label='Username'
+            label='Usrname'
             sx={{ marginTop: "10px" }}
             variant='outlined'
             value={loginForm.values.username}
@@ -73,7 +80,7 @@ const LoginContainer = () => {
             error={
               loginForm.touched.username && Boolean(loginForm.errors.username)
             }
-            helperText={loginForm.errors.username}
+            helperText={loginForm.touched.username && loginForm.errors.username}
           />
           <TextField
             type='password'
@@ -89,16 +96,18 @@ const LoginContainer = () => {
             error={
               loginForm.touched.password && Boolean(loginForm.errors.password)
             }
-            helperText={loginForm.errors.password}
+            helperText={loginForm.touched.password && loginForm.errors.password}
           />
-          <Button variant='contained' type='submit'>
+          <Button variant='contained' type='submit' sx={{ marginTop: "10px" }}>
             Login
           </Button>
-          <Loader open={loading} />
           {error && (
-            <Alert severity='error'>{error.message}, please try again.</Alert>
+            <Alert sx={{ marginTop: 2 }} severity='error'>
+              {error.message}, please try again.
+            </Alert>
           )}
         </form>
+        <Loader open={loading} />
       </Box>
     </Box>
   );
