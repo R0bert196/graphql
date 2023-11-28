@@ -8,6 +8,7 @@ import com.graphql.first.resolver.AddPostInput
 import com.graphql.first.resolver.Post
 import com.graphql.first.resolver.User
 import org.springframework.data.domain.PageRequest
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 import java.util.*
 import kotlin.RuntimeException
@@ -49,8 +50,10 @@ class PostService(private val postRepository: PostRepository, private val userRe
 
     fun addPost(addPostInput: AddPostInput): Post {
 
-    val author = userRepository.findById(addPostInput.authorId)
-        .orElseThrow{ RuntimeException("User id is not valid ${addPostInput.authorId}")}
+    val loggedInUsername = SecurityContextHolder.getContext().authentication.name
+
+    val author = userRepository.findByName(loggedInUsername)
+        ?: throw RuntimeException("User is not valid ${loggedInUsername}")
 
     val postEntity = PostEntity(
         title = addPostInput.title,

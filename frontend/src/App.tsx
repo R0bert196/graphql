@@ -5,6 +5,7 @@ import Layout from "./components/common/layout/Index";
 import LoginContainer from "./components/login/LoginContainer";
 import RequireAuth from "./components/common/RequireAuth";
 import PostContainer from "./components/posts/PostContainer";
+import AddPost from "./components/posts/AddPost";
 
 function App() {
   return (
@@ -19,7 +20,7 @@ function App() {
 
             {/* Only allow access to ADMIN  */}
             <Route element={<RequireAuth roles={["ROLE_ADMIN"]} />}>
-              <Route path='new' element={<div>New Post</div>} />
+              <Route path='new' element={<AddPost />} />
             </Route>
           </Route>
 

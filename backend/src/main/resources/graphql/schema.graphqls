@@ -36,7 +36,6 @@ input AddUserInput {
 input AddPostInput {
     title: String!
     description: String
-    authorId: ID!
 }
 
 type Post {

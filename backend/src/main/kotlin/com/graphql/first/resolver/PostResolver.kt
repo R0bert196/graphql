@@ -69,6 +69,5 @@ data class Post(
 data class AddPostInput (
     val title: String,
     val description: String,
-    val authorId: UUID
 )
 

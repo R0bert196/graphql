@@ -25,7 +25,6 @@ export type AddCommentInput = {
 };
 
 export type AddPostInput = {
-  authorId: Scalars['ID'];
   description?: InputMaybe<Scalars['String']>;
   title: Scalars['String'];
 };
@@ -165,6 +164,14 @@ export type AddCommentMutationVariables = Exact<{
 
 export type AddCommentMutation = { __typename?: 'Mutation', addComment: { __typename?: 'Comment', text: string, id: string } };
 
+export type AddPostMutationVariables = Exact<{
+  title: Scalars['String'];
+  description: Scalars['String'];
+}>;
+
+
+export type AddPostMutation = { __typename?: 'Mutation', addPost: { __typename?: 'Post', id: string, title: string } };
+
 export type HelloWorldQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -243,6 +250,41 @@ export function useAddCommentMutation(baseOptions?: Apollo.MutationHookOptions<A
 export type AddCommentMutationHookResult = ReturnType<typeof useAddCommentMutation>;
 export type AddCommentMutationResult = Apollo.MutationResult<AddCommentMutation>;
 export type AddCommentMutationOptions = Apollo.BaseMutationOptions<AddCommentMutation, AddCommentMutationVariables>;
+export const AddPostDocument = gql`
+    mutation AddPost($title: String!, $description: String!) {
+  addPost(addPostInput: {title: $title, description: $description}) {
+    id
+    title
+  }
+}
+    `;
+export type AddPostMutationFn = Apollo.MutationFunction<AddPostMutation, AddPostMutationVariables>;
+
+/**
+ * __useAddPostMutation__
+ *
+ * To run a mutation, you first call `useAddPostMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddPostMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addPostMutation, { data, loading, error }] = useAddPostMutation({
+ *   variables: {
+ *      title: // value for 'title'
+ *      description: // value for 'description'
+ *   },
+ * });
+ */
+export function useAddPostMutation(baseOptions?: Apollo.MutationHookOptions<AddPostMutation, AddPostMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AddPostMutation, AddPostMutationVariables>(AddPostDocument, options);
+      }
+export type AddPostMutationHookResult = ReturnType<typeof useAddPostMutation>;
+export type AddPostMutationResult = Apollo.MutationResult<AddPostMutation>;
+export type AddPostMutationOptions = Apollo.BaseMutationOptions<AddPostMutation, AddPostMutationVariables>;
 export const HelloWorldDocument = gql`
     query HelloWorld {
   helloWorld

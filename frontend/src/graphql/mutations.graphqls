@@ -8,3 +8,10 @@ mutation AddComment($text: String!, $postId: ID!) {
     id
   }
 }
+
+mutation AddPost($title: String!, $description: String!) {
+  addPost(addPostInput: { title: $title, description: $description }) {
+    id
+    title
+  }
+}

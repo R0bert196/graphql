@@ -23,7 +23,7 @@ const AddComment: FC<Props> = ({ onSubmit, disabled }) => {
     },
   });
   return (
-    <Box>
+    <Box mb={2}>
       <form
         style={{
           display: "flex",
