@@ -11,7 +11,7 @@ const RequireAuth: FC<Props> = ({ roles }) => {
   const location = useLocation();
 
   const hasPermission = () => {
-    return auth?.user.roles.find((role: string) => roles.includes(role));
+    return auth?.user?.roles.find((role: string) => roles.includes(role));
   };
 
   return auth?.user ? (

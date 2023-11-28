@@ -14,7 +14,7 @@ interface User {
 interface AuthContextData {
   saveToken: (token: string) => void;
   clearToken: () => void;
-  user: any;
+  user: User | null;
 }
 
 const AuthContext = React.createContext<AuthContextData | null>(null);
