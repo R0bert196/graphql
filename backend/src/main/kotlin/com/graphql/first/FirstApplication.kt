@@ -66,7 +66,13 @@ class FirstApplication {
                 author = user2
             )
 
-            commentRepository.saveAll(listOf(comment, comment2, comment3))
+            val comment4 = CommentEntity(
+                text = "comment for post",
+                post = postEntity,
+                author = user2
+            )
+
+            commentRepository.saveAll(listOf(comment, comment2, comment3, comment4))
         }
     }
 }

@@ -166,7 +166,7 @@ export type HelloWorldQuery = { __typename?: 'Query', helloWorld?: string | null
 export type GetPostsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetPostsQuery = { __typename?: 'Query', getPosts: Array<{ __typename?: 'Post', id: string, title: string, description?: string | null, comments: Array<{ __typename?: 'Comment', id: string, text: string } | null>, author?: { __typename?: 'User', id: string, name: string } | null }> };
+export type GetPostsQuery = { __typename?: 'Query', getPosts: Array<{ __typename?: 'Post', id: string, title: string, description?: string | null, comments: Array<{ __typename?: 'Comment', id: string, text: string, author?: { __typename?: 'User', id: string, name: string } | null } | null>, author?: { __typename?: 'User', id: string, name: string } | null }> };
 
 
 export const LoginDocument = gql`
@@ -242,6 +242,10 @@ export const GetPostsDocument = gql`
     comments {
       id
       text
+      author {
+        id
+        name
+      }
     }
     author {
       id
