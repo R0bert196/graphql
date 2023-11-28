@@ -7,6 +7,7 @@ import RequireAuth from "./components/common/RequireAuth";
 import PostContainer from "./components/posts/PostContainer";
 import AddPost from "./components/posts/AddPost";
 import RegisterUser from "./components/users/RegisterUser";
+import Unauthorized from "./components/common/Unauthorized";
 
 function App() {
   return (
@@ -34,12 +35,7 @@ function App() {
         {/* public routes  */}
         <Route path='/login' element={<LoginContainer />} />
         <Route path='/register' element={<RegisterUser />} />
-        <Route
-          path='unauthorized'
-          element={
-            <div>You don't have the required permission to view this page</div>
-          }
-        />
+        <Route path='/unauthorized' element={<Unauthorized />} />
       </Route>
     </Routes>
   );
