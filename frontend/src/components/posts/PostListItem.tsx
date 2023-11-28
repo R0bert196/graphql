@@ -75,6 +75,7 @@ const PostListItem: FC<Props> = ({ post }) => {
           <Divider />
           {auth?.user?.roles.includes("ROLE_ADMIN") && (
             <AddComment
+              disabled={loading}
               onSubmit={(comment) => {
                 console.log("inside post item", comment);
                 addComment({

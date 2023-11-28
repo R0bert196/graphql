@@ -5,13 +5,14 @@ import * as yup from "yup";
 
 interface Props {
   onSubmit: (values: string) => void;
+  disabled: boolean;
 }
 
 const validationSchema = yup.object({
   text: yup.string().required("Please enter comment"),
 });
 
-const AddComment: FC<Props> = ({ onSubmit }) => {
+const AddComment: FC<Props> = ({ onSubmit, disabled }) => {
   const commentForm = useFormik({
     initialValues: {
       text: "",
@@ -47,7 +48,7 @@ const AddComment: FC<Props> = ({ onSubmit }) => {
           helperText={commentForm.errors.text}
         />
         <Box sx={{ marginY: "auto" }}>
-          <Button variant='contained' type='submit'>
+          <Button variant='contained' type='submit' disabled={disabled}>
             Add comment
           </Button>
         </Box>
