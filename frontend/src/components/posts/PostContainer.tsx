@@ -2,6 +2,8 @@ import { Alert, Box, Button } from "@mui/material";
 import { useGetPostsQuery } from "../../generated/graphql";
 import Loader from "../common/Loader";
 import styled from "@emotion/styled";
+import { Post } from "../common/commontypes";
+import PostList from "./PostList";
 
 const PostContainer = () => {
   const { data, loading, error, refetch } = useGetPostsQuery({
@@ -16,7 +18,7 @@ const PostContainer = () => {
   return (
     <Box sx={{ display: "flex", justifyContent: "center" }}>
       <Loader open={loading} />
-      {data && <div>{JSON.stringify(data.getPosts)}</div>}
+      {data && <PostList posts={data.getPosts as Post[]} />}
       {error && (
         <Alert sx={{ marginTop: 2, width: "50%" }} severity='error'>
           {error.message}, please try again
